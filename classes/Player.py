@@ -1,3 +1,5 @@
+import json
+
 class Player:
     def __init__(self, id: int, first_name: str, last_name: str, elo_points: int, confrontation = None):
         self.id = id

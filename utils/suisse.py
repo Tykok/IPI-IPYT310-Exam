@@ -1,11 +1,12 @@
-from defnition import JSON_PATH_SUISSE
+from defnition import JSON_PATH_SUISSE, JSON_PATH_SUISSE_OPPONENTS
 import json
 from classes.Player import Player
 
 
 def main():
   """
-  Main of the program Suisse, print all opponents and the two groups
+  Main of the program Suisse, print all opponents and the two groups of players.
+  At last, serialize the JSON.
   """
   list_of_players = load_json(JSON_PATH_SUISSE)
   groups = separate_group(list_of_players)
@@ -17,6 +18,7 @@ def main():
   list_of_confrontation = confrontation(groups[0], groups[1])
   for item in list_of_confrontation:
     item.print_versus()
+  save_json(JSON_PATH_SUISSE_OPPONENTS, list_of_confrontation)
 
 def separate_group(players: list) -> tuple[Player]:
   """
@@ -51,9 +53,9 @@ def load_json(file_name: str) -> list[Player]:
     list_of_player.append(Player(**item))
   return list_of_player
 
-def save_json(file_name: str, data):
+def save_json(file_name: str, data: list[Player]):
   """
   Serialize the data in a json file given in arguments.
   """
   with open(file_name, "w") as write_file:
-      json.dump(data, write_file)
+    json.dump(data, write_file ,default=lambda o: o.__dict__, ensure_ascii=True, indent=4)
